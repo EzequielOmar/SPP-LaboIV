@@ -9,9 +9,16 @@ export interface E_tipeMovie {
 }
 
 export interface Movie {
-  nombre: string;
-  tipo: E_tipeMovie;
-  fecha_estreno: string;
-  cantidad_publico: Number;
-  foto_path: string;
+  id: string;
+  movie: {
+    nombre: string;
+    tipo: E_tipeMovie;
+    resumen: string;
+    fecha_estreno: string;
+    cantidad_publico: Number;
+    foto_path: string;
+    actores: Array<string>;
+    realUrl: string;
+  };
 }
+//sumar array actores

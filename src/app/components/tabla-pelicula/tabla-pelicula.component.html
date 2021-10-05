@@ -1,4 +1,4 @@
-<div id="wrapper">
+<div id="wrapper" >
   <span (mouseover)="swipe('l')" class="left-controls" role="button" aria-label="See Previous Modules">
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-bar-left"
       viewBox="0 0 16 16">
@@ -7,10 +7,10 @@
     </svg>
   </span>
   <h3> Tendencias </h3>
-  <div class="module-section clearfix">
-    <ul #content>
-      <li class="card effect1" *ngFor="let movie of movies">
-        <img (click)="selectMovie(movie)" src="/assets/peliculas/{{movie.foto_path}}" alt="cover-pelicula">
+  <div class="module-section clearfix" >
+    <ul #content *ngIf="imagesLoaded" >
+      <li  class="card effect1" *ngFor="let movie of movies">
+        <img (click)="selectMovie(movie)" [src]="movie.movie.realUrl" alt="cover-pelicula">
       </li>
     </ul>
   </div>

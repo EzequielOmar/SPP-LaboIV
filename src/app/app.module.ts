@@ -20,6 +20,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from './widgets/date-picker/date-picker.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TablaActorComponent } from './components/tabla-actor/tabla-actor.component';
+import { AltaPeliculaComponent } from './pages/alta-pelicula/alta-pelicula.component';
 //material
 
 @NgModule({
@@ -32,6 +34,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AltaActoresComponent,
     TablaPaisesComponent,
     DatePickerComponent,
+    TablaActorComponent,
+    AltaPeliculaComponent,
   ],
   imports: [
     BrowserModule,

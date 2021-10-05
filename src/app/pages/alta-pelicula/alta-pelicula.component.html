@@ -1,0 +1,168 @@
+<div class="container">
+
+  <div class="row mt-3 p-3">
+    <h3 class="mb-3">Alta de Actor/Actriz</h3>
+  </div>
+  <hr class="mb-4">
+
+  <div *ngIf="spinner" class="row justify-content-center pt-5">
+    <div class="spinner-border text-align-center" style="width:3rem; height:3rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!spinner" class="row">
+    <div class="col-md-8 order-md-1">
+      <form class="needs-validation" [formGroup]="form" (ngSubmit)="send()">
+        <div class="row">
+          <!--Nombre Pelicula-->
+          <div class="col-md-8 mb-3">
+            <label for="nombre">Titulo de la película</label>
+            <input minlength=2 maxlength=25 formControlName="nombre" type="text" class="form-control" placeholder=""
+              value="" required>
+            <!--Errores-->
+            <div *ngIf="form.controls['nombre'].invalid && (sended || form.controls['nombre'].touched)">
+              <div *ngIf="!(form.controls['nombre'].errors?.required);  else reqError">
+              </div>
+              <div *ngIf="!(form.controls['nombre'].errors?.minlength );  else minError">
+              </div>
+              <div *ngIf="!(form.controls['nombre'].errors?.maxlength );  else maxError">
+              </div>
+            </div>
+          </div>
+          <!--Tipo-->
+          <div class="col-md-4 mb-3">
+            <label for="tipo">Género</label>
+            <select formControlName="tipo" class="form-select" aria-label="tipo">
+              <option [selected]="1" disabled>-- Elegir género --</option>
+              <option value="Terror">Terror</option>
+              <option value="Comedia">Comedia</option>
+              <option value="Amor">Amor</option>
+              <option value="Acción">Acción</option>
+              <option value="Otro">Otro</option>
+            </select>
+            <!--Errores-->
+            <div *ngIf="form.controls['tipo'].invalid && (sended || form.controls['tipo'].touched)">
+              <div *ngIf="!(form.controls['tipo'].errors?.required);  else reqError">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Trama-->
+        <div class="mb-3">
+          <label for="resumen">Resumen</label>
+          <div class="input-group">
+            <div class="col-12 p-0">
+              <textarea minlength=10 maxlength=35 formControlName="resumen" type="text" class="form-control"
+                placeholder="Resumen..."></textarea>
+            </div>
+            <!--Errores-->
+            <div *ngIf="form.controls['resumen'].invalid && (sended || form.controls['resumen'].touched)">
+              <div *ngIf="!(form.controls['resumen'].errors?.required);  else reqError">
+              </div>
+              <div *ngIf="!(form.controls['resumen'].errors?.minlength );  else minError">
+              </div>
+              <div *ngIf="!(form.controls['resumen'].errors?.maxlength );  else maxError">
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="mb-4">
+        <div class="row">
+          <!--Fecha Estreno-->
+          <div class="col-md-4 mb-3">
+            <label>Fecha de Estreno</label>
+            <app-date-picker (dateSelected)="form.controls['fecha_estreno'].setValue($event)"></app-date-picker>
+            <!--Errores-->
+            <div *ngIf="form.controls['fecha_estreno'].invalid && (sended || form.controls['fecha_estreno'].touched)">
+              <div *ngIf="!(form.controls['fecha_estreno'].errors?.required);  else reqError">
+              </div>
+            </div>
+          </div>
+          <!--Imagen-->
+          <div class="col-md-8 mb-3">
+            <label style="width: 100%;" for="portada">Portada</label>
+            <label style="width: 100%;" class="image-upload-container">
+              <input (input)="getImage($event)" #imageInput class="file-input form-control" type="file"
+                accept=".jpeg,.jpg,.png">
+            </label>
+            <!--Errores-->
+            <div *ngIf="!(!form.controls['foto_path'].valid && sended);  else reqError">
+            </div>
+          </div>
+
+        </div>
+        <!--Elenco-->
+        <div formArrayName="actores" class="row">
+          <label for="actors">Elenco:</label>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let a of actors">
+              <option [ngValue]="a.id">{{a.actor.nombre}}</option>
+            </li>
+          </ul>
+          <!--Errores-->
+          <div *ngIf="(sended || form.controls['actores'].touched)">
+            <div class="invalid-feedback d-block" *ngIf="form.controls['actores'].value.length === 0"
+              style="width: 100%;">
+              *Se requiere al menos un actor por película*
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="respuesta" class="card">
+          <div class="card-body invalid-feedback d-block text-center">
+            <strong style="width: 100%; font-size: medium;">
+              {{respuesta}}
+            </strong>
+          </div>
+        </div>
+
+        <hr class="mb-4">
+
+        <button class="offset-md-4 col-md-4 col-sm-6 btn btn-primary btn-lg btn-block" type="submit">Enviar</button>
+        <img [src]="url" alt="">
+
+      </form>
+    </div>
+
+    <div class="col-md-4 order-md-2 mb-4">
+      <app-tabla-actor (actorSelected)="getActor($event)"></app-tabla-actor>
+    </div>
+  </div>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017-2021 Company Name</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+
+</div>
+
+<!--TEMPLATES DE ERRORES-->
+<!--ERROR -> Requerido-->
+<ng-template #reqError>
+  <div class="invalid-feedback d-block" style="width: 100%;">
+    *Este campo es obligatorio*
+  </div>
+</ng-template>
+<!--ERROR -> Patron incorrecto-->
+<ng-template #patError>
+  <div class="invalid-feedback d-block" style="width: 100%;">
+    *El formato del campo es incorrecto*
+  </div>
+</ng-template>
+<!--ERROR -> minimo-->
+<ng-template #minError>
+  <div class="invalid-feedback d-block" style="width: 100%;">
+    *El valor de este campo es muy corto/bajo*
+  </div>
+</ng-template>
+<!--ERROR -> maximo-->
+<ng-template #maxError>
+  <div class="invalid-feedback d-block" style="width: 100%;">
+    *El valor de este campo es muy largo/alto*
+  </div>
+</ng-template>

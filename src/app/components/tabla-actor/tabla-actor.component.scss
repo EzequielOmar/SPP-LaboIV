@@ -1,0 +1,15 @@
+ul {
+  li {
+    img {
+      -webkit-user-drag: none;
+    }
+    user-select: none;
+    cursor: pointer;
+  }
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar{
+  display: none;
+}

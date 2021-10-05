@@ -2,11 +2,11 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  OnInit,
   Output,
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { dbName_Movies, Movie } from 'src/app/clases/pelicula';
 import { DbService } from 'src/app/services/db.service';
 
@@ -15,21 +15,25 @@ import { DbService } from 'src/app/services/db.service';
   templateUrl: './tabla-pelicula.component.html',
   styleUrls: ['./tabla-pelicula.component.scss'],
 })
-export class TablaPeliculaComponent implements OnInit {
+export class TablaPeliculaComponent {
   @ViewChild('content') content!: ElementRef;
   @Output() movieSelected: EventEmitter<Movie> = new EventEmitter<Movie>();
   movies: Array<Movie> = [];
   margin: number = 0;
-  constructor(private db: DbService, private rd: Renderer2) {
+  imagesLoaded: Boolean = false;
+  constructor(
+    private db: DbService,
+    private rd: Renderer2,
+    private fireStorage: AngularFireStorage
+  ) {
     this.db.getObserver(dbName_Movies).onSnapshot((snap) => {
       this.movies = [];
       snap.forEach((child: any) => {
-        this.movies.push(child.data() as Movie);
+        this.movies.push({ id: child.id, movie: child.data() });
       });
+      this.getRealUrls();
     });
   }
-
-  ngOnInit(): void {}
 
   /**
    * mueve la barra de lista de peliculas.
@@ -57,5 +61,23 @@ export class TablaPeliculaComponent implements OnInit {
 
   selectMovie(movie: Movie) {
     this.movieSelected?.emit(movie);
+  }
+
+  private getRealUrls() {
+    this.movies.forEach((m) => {
+      this.getRealUrl(m.movie.foto_path).then((url: string) => {
+        m.movie.realUrl = url;
+      });
+    });
+    setTimeout(() => {
+      this.imagesLoaded = true;
+    }, 1000);
+  }
+
+  private async getRealUrl(filename: string) {
+    return await this.fireStorage.storage
+      .ref('/portadas/' + filename)
+      .getDownloadURL()
+      .then((url: string) => url);
   }
 }

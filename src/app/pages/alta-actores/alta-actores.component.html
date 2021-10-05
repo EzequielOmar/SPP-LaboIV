@@ -62,6 +62,7 @@
         <div class="row">
           <!--Fecha-->
           <div class="col-md-4 mb-3">
+            <label for="d">Nacimiento</label>
             <app-date-picker (dateSelected)="form.controls['nacimiento'].setValue($event)"></app-date-picker>
             <!--Errores-->
             <div *ngIf="form.controls['nacimiento'].invalid && (sended || form.controls['nacimiento'].touched)">
@@ -98,7 +99,7 @@
           </div>
         </div>
         <div class="card">
-          <div class="card-body invalid-feedback d-block text-center" >
+          <div class="card-body invalid-feedback d-block text-center">
             <strong style="width: 100%; font-size: medium;">
               {{respuesta}}
             </strong>
