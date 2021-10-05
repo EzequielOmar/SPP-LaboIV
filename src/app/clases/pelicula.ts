@@ -1,6 +1,6 @@
-export const dbName_Peliculas = 'peliculas';
+export const dbName_Movies = 'peliculas';
 
-export interface E_tipoPelicula {
+export interface E_tipeMovie {
   terror: 'Terror';
   comedia: 'Comedia';
   amor: 'Amor';
@@ -8,10 +8,10 @@ export interface E_tipoPelicula {
   otro: 'Otro';
 }
 
-export interface Pelicula {
-  nombre: String;
-  tipo: E_tipoPelicula;
-  fecha_estreno: String;
+export interface Movie {
+  nombre: string;
+  tipo: E_tipeMovie;
+  fecha_estreno: string;
   cantidad_publico: Number;
-  foto_path: String;
+  foto_path: string;
 }

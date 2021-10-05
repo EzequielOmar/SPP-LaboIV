@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Pelicula } from 'src/app/clases/pelicula';
+import { Movie } from 'src/app/clases/pelicula';
 
 @Component({
   selector: 'app-detalle-pelicula',
@@ -7,7 +7,7 @@ import { Pelicula } from 'src/app/clases/pelicula';
   styleUrls: ['./detalle-pelicula.component.scss'],
 })
 export class DetallePeliculaComponent implements OnInit {
-  @Input() movie?: Pelicula;
+  @Input() movie?: Movie;
   constructor() {}
 
   ngOnInit(): void {}

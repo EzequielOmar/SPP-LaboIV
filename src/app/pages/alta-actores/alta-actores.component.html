@@ -1,0 +1,152 @@
+<div class="container">
+
+  <div class="row mt-3 p-3">
+    <h3 class="mb-3">Alta de Actor/Actriz</h3>
+  </div>
+  <hr class="mb-4">
+
+  <div *ngIf="spinner" class="row justify-content-center pt-5">
+    <div class="spinner-border text-align-center" style="width:3rem; height:3rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!spinner" class="row">
+    <div class="col-md-8 order-md-1">
+      <form class="needs-validation" [formGroup]="form" (ngSubmit)="send()">
+        <div class="row">
+          <!--Nombre-->
+          <div class="col-md-6 mb-3">
+            <label for="firstName">Nombre</label>
+            <input pattern="[a-zA-Z ]*" minlength=3 maxlength=25 formControlName="nombre" type="text"
+              class="form-control" placeholder="" value="" required>
+            <!--Errores-->
+            <div *ngIf="form.controls['nombre'].invalid && (sended || form.controls['nombre'].touched)">
+              <div *ngIf="!(form.controls['nombre'].errors?.required);  else reqError">
+              </div>
+              <div *ngIf="!(form.controls['nombre'].errors?.pattern );  else patError">
+              </div>
+              <div *ngIf="!(form.controls['nombre'].errors?.minlength );  else minError">
+              </div>
+              <div *ngIf="!(form.controls['nombre'].errors?.maxlength );  else minError">
+              </div>
+            </div>
+          </div>
+          <!--Apellido-->
+          <div class="col-md-6 mb-3">
+            <label for="lastName">Apellido</label>
+            <input pattern="[a-zA-Z ]*" minlength=3 maxlength=25 formControlName="apellido" type="text"
+              class="form-control" placeholder="" value="" required>
+            <!--Errores-->
+            <div *ngIf="form.controls['apellido'].invalid && (sended || form.controls['apellido'].touched)">
+              <div *ngIf="!(form.controls['apellido'].errors?.required);  else reqError">
+              </div>
+              <div *ngIf="!(form.controls['apellido'].errors?.pattern );  else patError">
+              </div>
+              <div *ngIf="!(form.controls['apellido'].errors?.minlength );  else minError">
+              </div>
+              <div *ngIf="!(form.controls['apellido'].errors?.maxlength );  else minError">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Biografia-->
+        <div class="mb-3">
+          <label for="bio">Biografía</label>
+          <div class="input-group">
+            <textarea formControlName="biografia" type="text" class="form-control"
+              placeholder="Biografía..."></textarea>
+          </div>
+        </div>
+        <hr class="mb-4">
+        <div class="row">
+          <!--Fecha-->
+          <div class="col-md-4 mb-3">
+            <app-date-picker (dateSelected)="form.controls['nacimiento'].setValue($event)"></app-date-picker>
+            <!--Errores-->
+            <div *ngIf="form.controls['nacimiento'].invalid && (sended || form.controls['nacimiento'].touched)">
+              <div *ngIf="!(form.controls['nacimiento'].errors?.required);  else reqError">
+              </div>
+            </div>
+          </div>
+          <!--Pais-->
+          <div class="col-md-4 mb-3">
+            <label for="country">Nacionalidad</label>
+            <input formControlName="pais" type="text" class="form-control" placeholder="" value="" required readonly>
+            <!--Errores-->
+            <div *ngIf="form.controls['pais'].invalid && (sended || form.controls['pais'].touched)">
+              <div *ngIf="!(form.controls['pais'].errors?.required);  else reqError">
+              </div>
+            </div>
+          </div>
+          <!--Sexo-->
+          <div class="col-md-4 mb-3">
+            <label for="sexo">Sexo</label>
+            <select formControlName="sexo" class="form-select" aria-label="sexo">
+              <option [selected]="1" disabled>-- Elegir sexo --</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
+              <option value="No Binario">No Binario</option>
+            </select>
+            <!--Errores-->
+            <div *ngIf="form.controls['sexo'].invalid && (sended || form.controls['sexo'].touched)">
+              <div *ngIf="!(form.controls['sexo'].errors?.required);  else reqError">
+              </div>
+              <div *ngIf="!(form.controls['sexo'].errors?.pattern );  else patError">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body invalid-feedback d-block text-center" >
+            <strong style="width: 100%; font-size: medium;">
+              {{respuesta}}
+            </strong>
+          </div>
+        </div>
+        <hr class="mb-4">
+        <button class="offset-md-4 col-md-4 col-sm-6 btn btn-primary btn-lg btn-block" type="submit">Enviar</button>
+      </form>
+    </div>
+
+    <div class="col-md-4 order-md-2 mb-4">
+      <app-tabla-paises (countrySelected)="form.controls['pais'].setValue($event.nombre)"></app-tabla-paises>
+    </div>
+  </div>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017-2021 Company Name</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+
+</div>
+
+<!--TEMPLATES DE ERRORES-->
+<!--ERROR -> Requerido-->
+<ng-template #reqError>
+  <div class="invalid-feedback d-block" style="width: 100%;">
+    *Este campo es obligatorio*
+  </div>
+</ng-template>
+<!--ERROR -> Patron incorrecto-->
+<ng-template #patError>
+  <div class="invalid-feedback d-block" style="width: 100%;">
+    *El formato del campo es incorrecto*
+  </div>
+</ng-template>
+<!--ERROR -> minimo-->
+<ng-template #minError>
+  <div class="invalid-feedback d-block" style="width: 100%;">
+    *El valor de este campo es muy corto/bajo*
+  </div>
+</ng-template>
+<!--ERROR -> maximo-->
+<ng-template #maxError>
+  <div class="invalid-feedback d-block" style="width: 100%;">
+    *El valor de este campo es muy largo/alto*
+  </div>
+</ng-template>

@@ -7,7 +7,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { dbName_Peliculas, Pelicula } from 'src/app/clases/pelicula';
+import { dbName_Movies, Movie } from 'src/app/clases/pelicula';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
@@ -17,15 +17,14 @@ import { DbService } from 'src/app/services/db.service';
 })
 export class TablaPeliculaComponent implements OnInit {
   @ViewChild('content') content!: ElementRef;
-  @Output() movieSelected: EventEmitter<Pelicula> =
-    new EventEmitter<Pelicula>();
-  movies: Array<Pelicula> = [];
+  @Output() movieSelected: EventEmitter<Movie> = new EventEmitter<Movie>();
+  movies: Array<Movie> = [];
   margin: number = 0;
   constructor(private db: DbService, private rd: Renderer2) {
-    this.db.getObserver(dbName_Peliculas).onSnapshot((snap) => {
+    this.db.getObserver(dbName_Movies).onSnapshot((snap) => {
       this.movies = [];
       snap.forEach((child: any) => {
-        this.movies.push(child.data() as Pelicula);
+        this.movies.push(child.data() as Movie);
       });
     });
   }
@@ -56,7 +55,7 @@ export class TablaPeliculaComponent implements OnInit {
     );
   }
 
-  selectMovie(movie: Pelicula) {
+  selectMovie(movie: Movie) {
     this.movieSelected?.emit(movie);
   }
 }

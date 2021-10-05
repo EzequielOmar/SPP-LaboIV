@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Pelicula } from 'src/app/clases/pelicula';
+import { Movie } from 'src/app/clases/pelicula';
 
 @Component({
   selector: 'app-busqueda',
@@ -7,12 +7,12 @@ import { Pelicula } from 'src/app/clases/pelicula';
   styleUrls: ['./busqueda.component.scss'],
 })
 export class BusquedaComponent implements OnInit {
-  movie?: Pelicula;
+  movie?: Movie;
   constructor() {}
 
   ngOnInit(): void {}
 
-  selectMovie(movie: Pelicula) {
+  selectMovie(movie: Movie) {
     this.movie = movie;
   }
 }

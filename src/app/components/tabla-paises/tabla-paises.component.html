@@ -1,0 +1,12 @@
+<h4 class="d-flex justify-content-between align-items-center mb-3">
+  <span class="text-muted">País</span>
+</h4>
+<ul class="list-group mb-3">
+  <li (click)="selectCountry(c)" *ngFor="let c of countries"
+    class="list-group-item d-flex justify-content-between align-items-center lh-condensed">
+    <div>
+      <img src="https://www.countryflags.io/{{c.img_code}}/shiny/64.png">
+    </div>
+    <span class="text-muted">{{c.nombre}}</span>
+  </li>
+</ul>
