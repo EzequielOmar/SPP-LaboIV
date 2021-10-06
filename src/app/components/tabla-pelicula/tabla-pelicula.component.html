@@ -8,7 +8,7 @@
   </span>
   <h3> Tendencias </h3>
   <div class="module-section clearfix" >
-    <ul #content *ngIf="imagesLoaded" >
+    <ul #content >
       <li  class="card effect1" *ngFor="let movie of movies">
         <img (click)="selectMovie(movie)" [src]="movie.movie.realUrl" alt="cover-pelicula">
       </li>

@@ -1,0 +1,19 @@
+<h4 class="d-flex justify-content-between align-items-center mb-3">
+  <legend >Peliculas:</legend>
+</h4>
+<ul *ngIf="imagesLoaded" class="list-group mb-3">
+  <li *ngFor="let m of movies"
+    class="card">
+    <div class="row no-gutters">
+      <div class="col-md-6">
+        <img style="max-width:8rem" src="{{m.movie.realUrl}}" alt="movie-cover">
+      </div>
+      <div class="col-md-6">
+        <div class="card-body">
+          <h5 class="card-title">{{m.movie.nombre}}</h5>
+          <span>Estrenada el día {{m.movie.fecha_estreno}}</span>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>

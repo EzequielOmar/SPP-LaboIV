@@ -1,0 +1,14 @@
+<fieldset *ngIf="pais;else span">
+  <legend>Nacionalidad:</legend>
+  <div class="row mt-5" *ngIf="pais">
+    <div>
+      <img src="https://www.countryflags.io/{{pais?.img_code}}/shiny/64.png">
+    </div>
+    <span>{{pais?.nombre}}</span>
+  </div>
+</fieldset>
+
+
+<ng-template #span>
+  <legend>Nacionalidad:</legend>
+  </ng-template>

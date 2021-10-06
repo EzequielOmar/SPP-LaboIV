@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   Output,
   Renderer2,
   ViewChild,
@@ -18,22 +19,9 @@ import { DbService } from 'src/app/services/db.service';
 export class TablaPeliculaComponent {
   @ViewChild('content') content!: ElementRef;
   @Output() movieSelected: EventEmitter<Movie> = new EventEmitter<Movie>();
-  movies: Array<Movie> = [];
+  @Input() movies!: Array<Movie>;
   margin: number = 0;
-  imagesLoaded: Boolean = false;
-  constructor(
-    private db: DbService,
-    private rd: Renderer2,
-    private fireStorage: AngularFireStorage
-  ) {
-    this.db.getObserver(dbName_Movies).onSnapshot((snap) => {
-      this.movies = [];
-      snap.forEach((child: any) => {
-        this.movies.push({ id: child.id, movie: child.data() });
-      });
-      this.getRealUrls();
-    });
-  }
+  constructor(private rd: Renderer2) {}
 
   /**
    * mueve la barra de lista de peliculas.
@@ -61,23 +49,5 @@ export class TablaPeliculaComponent {
 
   selectMovie(movie: Movie) {
     this.movieSelected?.emit(movie);
-  }
-
-  private getRealUrls() {
-    this.movies.forEach((m) => {
-      this.getRealUrl(m.movie.foto_path).then((url: string) => {
-        m.movie.realUrl = url;
-      });
-    });
-    setTimeout(() => {
-      this.imagesLoaded = true;
-    }, 1000);
-  }
-
-  private async getRealUrl(filename: string) {
-    return await this.fireStorage.storage
-      .ref('/portadas/' + filename)
-      .getDownloadURL()
-      .then((url: string) => url);
   }
 }

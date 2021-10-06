@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Movie } from 'src/app/clases/pelicula';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { dbName_Movies, Movie } from 'src/app/clases/pelicula';
+import { DbService } from 'src/app/services/db.service';
+import { FileService } from 'src/app/services/file.service';
 
 @Component({
   selector: 'app-busqueda',
@@ -8,7 +11,21 @@ import { Movie } from 'src/app/clases/pelicula';
 })
 export class BusquedaComponent implements OnInit {
   movie?: Movie;
-  constructor() {}
+  movies: Array<Movie> = [];
+  imagesLoaded: Boolean = false;
+  constructor(private db: DbService, private fl: FileService) {
+    //Obtener todas las peliculas
+    this.db.getObserver(dbName_Movies).onSnapshot((snap) => {
+      this.movies = [];
+      snap.forEach((child: any) => {
+        this.movies.push({ id: child.id, movie: child.data() });
+      });
+      this.fl.getMoviePicUrl(this.movies);
+      setTimeout(() => {
+        this.imagesLoaded = true;
+      }, 1000);
+    });
+  }
 
   ngOnInit(): void {}
 

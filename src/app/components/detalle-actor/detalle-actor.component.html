@@ -1,0 +1,20 @@
+<fieldset *ngIf="actor;else span">
+  <legend>{{actor?.actor?.nombre}} {{actor?.actor?.apellido}}</legend>
+  <div class="row mt-5">
+    <label for="firstName">Nacido el: <strong>{{actor?.actor?.nacimiento}}</strong></label>
+  </div>
+  <div class="row mt-2">
+    <label for="firstName">Edad: <strong>{{getEdad(actor?.actor?.nacimiento)}} Años</strong> </label>
+  </div>
+  <div class="row mt-2 ">
+    <label for="firstName">Género: <strong>{{actor?.actor?.sexo}}</strong></label>
+  </div>
+  <hr class="mb-4 m-0">
+  <div class="row mt-2">
+    <label for="firstName">Biografía: <strong>{{actor?.actor?.biografia}}</strong></label>
+  </div>
+</fieldset>
+
+<ng-template #span>
+<legend>Datos:</legend>
+</ng-template>
