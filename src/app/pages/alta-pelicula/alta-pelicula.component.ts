@@ -4,7 +4,7 @@ import {
   AngularFireUploadTask,
 } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Actor } from 'src/app/clases/actor';
+import { Actor, dbName_Actors } from 'src/app/clases/actor';
 import { dbName_Movies, Movie } from 'src/app/clases/pelicula';
 import { DbService } from 'src/app/services/db.service';
 
@@ -22,14 +22,13 @@ export class AltaPeliculaComponent {
   basePath_covers = '/portadas';
   file?: File;
   task?: AngularFireUploadTask;
-
-  url?:string;
-
+  fullActorsList: Array<Actor> = [];
   constructor(
     private fb: FormBuilder,
     private db: DbService,
     private fireStorage: AngularFireStorage
   ) {
+    /*FORMULARIO*/
     this.form = this.fb.group({
       // lo interpreto como views
       // cantidad_publico: ['', Validators.required],
@@ -39,6 +38,13 @@ export class AltaPeliculaComponent {
       fecha_estreno: ['', Validators.required],
       foto_path: ['', Validators.required],
       actores: this.fb.array([]),
+    });
+    /*LISTA DE ACTORES*/
+    this.db.getObserver(dbName_Actors).onSnapshot((snap) => {
+      this.fullActorsList = [];
+      snap.forEach((child: any) => {
+        this.fullActorsList.push({ id: child.id, actor: child.data() });
+      });
     });
   }
 
@@ -69,8 +75,6 @@ export class AltaPeliculaComponent {
       this.spinner = true;
       const filePath = `${this.basePath_covers}/${this.form.controls['foto_path'].value}`;
       this.task = this.fireStorage.upload(filePath, this.file);
-
-
       let movie: Movie = { id: '', movie: this.form.value };
       await this.db
         .set(dbName_Movies, movie.movie)

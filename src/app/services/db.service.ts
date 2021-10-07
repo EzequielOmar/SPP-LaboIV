@@ -3,6 +3,7 @@ import {
   AngularFirestore,
   CollectionReference,
 } from '@angular/fire/compat/firestore';
+import { Actor, dbName_Actors } from '../clases/actor';
 import { Country, dbName_Countries } from '../clases/pais';
 import { dbName_Movies, Movie } from '../clases/pelicula';
 
@@ -80,5 +81,27 @@ export class DbService {
         });
       });
     return movies;
+  };
+
+  /**
+   * Busca en la coleccion actores por el listado de actore del actor correspondiente
+   * @param id_actors array de los id de los actores
+   * @returns Retorna un array con los actores, o null si corresponde
+   */
+  getActorsOfMovie = async (id_actors: Array<string>) => {
+    let actors: Array<Actor> = [];
+    if (!id_actors) {
+      return null;
+    }
+    id_actors.forEach((id) => {
+      this.db.firestore
+        .collection(dbName_Actors)
+        .doc(id)
+        .get()
+        .then((doc:any) => {
+          actors.push({id:doc.id,actor:doc.data()});
+        });
+    });
+    return actors;
   };
 }

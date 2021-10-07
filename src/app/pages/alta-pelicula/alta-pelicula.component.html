@@ -120,13 +120,12 @@
         <hr class="mb-4">
 
         <button class="offset-md-4 col-md-4 col-sm-6 btn btn-primary btn-lg btn-block" type="submit">Enviar</button>
-        <img [src]="url" alt="">
 
       </form>
     </div>
 
     <div class="col-md-4 order-md-2 mb-4">
-      <app-tabla-actor (actorSelected)="getActor($event)"></app-tabla-actor>
+      <app-tabla-actor [actors]="fullActorsList" (actorSelected)="getActor($event)"></app-tabla-actor>
     </div>
   </div>
 
