@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Actor } from 'src/app/clases/actor';
+import { Actor, dbName_Actors } from 'src/app/clases/actor';
 import { Country, dbName_Countries } from 'src/app/clases/pais';
 import { Movie } from 'src/app/clases/pelicula';
 import { DbService } from 'src/app/services/db.service';
@@ -11,11 +11,15 @@ import { FileService } from 'src/app/services/file.service';
   styleUrls: ['./actores-peliculas.component.scss'],
 })
 export class ActoresPeliculasComponent implements OnInit {
+  actors: Array<Actor> = [];
   actor?: Actor;
   pais?: Country;
   movies: Array<Movie> = [];
   imagesLoaded: Boolean = false;
-  constructor(private db: DbService, private fl: FileService) {}
+
+  constructor(private db: DbService, private fl: FileService) {
+    this.getActors();
+  }
 
   ngOnInit(): void {}
 
@@ -32,8 +36,16 @@ export class ActoresPeliculasComponent implements OnInit {
       this.fl.getMoviePicUrl(this.movies);
       setTimeout(() => {
         this.imagesLoaded = true;
-        console.log(this.movies);
       }, 1000);
+    });
+  }
+
+  private getActors() {
+    this.db.getObserver(dbName_Actors).onSnapshot((snap) => {
+      this.actors = [];
+      snap.forEach((child: any) => {
+        this.actors.push({ id: child.id, actor: child.data() });
+      });
     });
   }
 }

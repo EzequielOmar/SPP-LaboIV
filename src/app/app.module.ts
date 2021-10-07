@@ -26,6 +26,7 @@ import { ActoresPeliculasComponent } from './pages/actores-peliculas/actores-pel
 import { DetalleActorComponent } from './components/detalle-actor/detalle-actor.component';
 import { DetallePaisComponent } from './components/detalle-pais/detalle-pais.component';
 import { TablaPeliculaFijaComponent } from './components/tabla-pelicula-fija/tabla-pelicula-fija.component';
+import { NavComponent } from './components/nav/nav.component';
 //material
 
 @NgModule({
@@ -44,6 +45,7 @@ import { TablaPeliculaFijaComponent } from './components/tabla-pelicula-fija/tab
     DetalleActorComponent,
     DetallePaisComponent,
     TablaPeliculaFijaComponent,
+    NavComponent,
   ],
   imports: [
     BrowserModule,

@@ -42,7 +42,6 @@ export class BusquedaComponent implements OnInit {
   private getActorsForMovie(actors: Array<string>) {
     this.db.getActorsOfMovie(actors).then((a: any) => {
       this.actors = a;
-      console.log(this.actors);
     });
   }
 }
