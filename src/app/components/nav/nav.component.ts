@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
+  dropMobileMenu: Boolean = false;
   dropTogle: Boolean = false;
   constructor(private router: Router) {}
 

@@ -20,13 +20,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from './widgets/date-picker/date-picker.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TablaActorComponent } from './components/tabla-actor/tabla-actor.component';
 import { AltaPeliculaComponent } from './pages/alta-pelicula/alta-pelicula.component';
-import { ActoresPeliculasComponent } from './pages/actores-peliculas/actores-peliculas.component';
-import { DetalleActorComponent } from './components/detalle-actor/detalle-actor.component';
-import { DetallePaisComponent } from './components/detalle-pais/detalle-pais.component';
-import { TablaPeliculaFijaComponent } from './components/tabla-pelicula-fija/tabla-pelicula-fija.component';
-import { NavComponent } from './components/nav/nav.component';
+import { ActoresPeliculasModule } from './modules/actores-peliculas/actores-peliculas.module';
 //material
 
 @NgModule({
@@ -39,13 +34,7 @@ import { NavComponent } from './components/nav/nav.component';
     AltaActoresComponent,
     TablaPaisesComponent,
     DatePickerComponent,
-    TablaActorComponent,
     AltaPeliculaComponent,
-    ActoresPeliculasComponent,
-    DetalleActorComponent,
-    DetallePaisComponent,
-    TablaPeliculaFijaComponent,
-    NavComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +47,7 @@ import { NavComponent } from './components/nav/nav.component';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    ActoresPeliculasModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ActoresPeliculasComponent } from './pages/actores-peliculas/actores-peliculas.component';
 import { AltaActoresComponent } from './pages/alta-actores/alta-actores.component';
 import { AltaPeliculaComponent } from './pages/alta-pelicula/alta-pelicula.component';
 import { BusquedaComponent } from './pages/busqueda/busqueda.component';
@@ -10,7 +9,17 @@ const routes: Routes = [
   { path: 'home', component: BusquedaComponent },
   { path: 'actor/alta', component: AltaActoresComponent },
   { path: 'pelicula/alta', component: AltaPeliculaComponent },
-  { path: 'actor/actorpelicula', component: ActoresPeliculasComponent },
+  {
+    path: 'actor/actorpelicula',
+    loadChildren: () =>
+      import('./modules/actores-peliculas/actores-peliculas.module')
+        .then((m: any) => {
+          return m.ActoresPeliculasModule;
+        })
+        .catch((e) => {
+          console.log(e);
+        }),
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: ErrorComponent },
 ];
